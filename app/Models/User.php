@@ -3,11 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Scopes\ActiveScope;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -57,4 +60,30 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $this->attributes['first_name'] . ' ' . $this->attributes['last_name']
+        );
+    }
+
+    protected function userName(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::slug($value)
+        );
+    }
+
+    public function scopeAdmin($query)
+    {
+        return $query->where('is_admin', true);
+    }
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new ActiveScope);
+    }
+
+
 }
