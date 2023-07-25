@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +21,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::prefix('/users')
+    ->middleware('admin')
+    ->controller(UserController::class)
+    ->group(function() {
+        Route::get('/', 'index')->name('users.index');
+        Route::get('/create', 'create')->name('users.create');
+        Route::get('/edit', 'edit')->name('users.edit');
+        Route::get('/{user}', 'show')->name('users.show');
+        Route::post('/', 'store')->name('users.store');
+        Route::put('/{user}', 'update')->name('users.update');
+        Route::delete('/{user}', 'destroy')->name('users.delete');
+    });
+
+Route::resource('/tasks', TaskController::class);
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -32,3 +49,5 @@ Route::middleware('auth')->group(function () {
 Route::get('/language/{lang}/', [LanguageController::class, 'changeLanguage'])->name('locale');
 
 require __DIR__.'/auth.php';
+
+
