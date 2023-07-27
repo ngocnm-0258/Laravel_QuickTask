@@ -12,8 +12,6 @@
                     {{ __("You're logged in!") }}
                 </div>
             </div>
-            <?php echo file_get_contents(public_path('bower_components/light-bootstrap-dashboard/examples/dashboard.html')); ?>
-
         </div>
     </div>
 </x-app-layout>
