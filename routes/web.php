@@ -31,7 +31,8 @@ Route::prefix('/users')
         Route::get('/{user}', 'show')->name('users.show');
         Route::post('/', 'store')->name('users.store');
         Route::put('/{user}', 'update')->name('users.update');
-        Route::delete('/{user}', 'destroy')->name('users.delete');
+        Route::delete('/{user}', 'destroy')->name('users.destroy');
+        Route::get('/{user}/tasks', 'showUserTasks')->name('users.tasks');
     });
 
 Route::resource('/tasks', TaskController::class);

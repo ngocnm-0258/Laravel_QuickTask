@@ -12,15 +12,8 @@
                     {{ __("Task List!") }}
                 </div>
             </div>
-            <div class="py-4">
-                <a href="{{ route('tasks.create') }}">
-                    <x-primary-button>
-                        {{ __('Create new task') }}
-                    </x-primary-button>
-                </a>
-            </div>
 
-            <table class="table">
+            <table class="table mt-4">
                 <thead>
                 <tr>
                     <th class="text-center" scope="col">ID</th>
@@ -42,23 +35,9 @@
                                     {{ __('Edit') }}
                                 </x-primary-button>
                             </a>
-
-                            <a href="{{ route('tasks.show', ['task' => $task->id]) }}">
-                                <x-primary-button class="mt-4">
-                                    {{ __('View') }}
-                                </x-primary-button>
-                            </a>
-
-                            <form action="{{ route('tasks.destroy', ['task' => $task->id]) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <x-primary-button type="submit"
-                                    class="mt-4"
-                                    onclick="return confirm( '{{ __('Accept delete ?') }}')"
-                                >
-                                    {{ __('Delete') }}
-                                </x-primary-button>
-                            </form>
+                            <x-secondary-button class="mt-4">
+                                {{ __('Delete') }}
+                            </x-secondary-button>
                         </th>
                     </tr>
                 @endforeach
