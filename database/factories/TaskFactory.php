@@ -20,6 +20,7 @@ class TaskFactory extends Factory
         return [
             'name' => fake()->sentence(),
             'description' => fake()->paragraph(),
+            'user_id' => fake()->numberBetween(1, 20),
         ];
     }
 }

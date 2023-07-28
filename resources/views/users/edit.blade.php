@@ -16,17 +16,31 @@
             <form action="{{ route('users.update', ['user' => $user->id]) }}" method="POST">
                 @csrf
                 @method('PUT')
+
                 <div class="mt-4">
-                    <x-input-label for="name" :value="__('UserName')" />
+                    <x-input-label for="first-name" :value="__('FirstName')" />
 
-                    <x-text-input id="name" class="block p-4 mt-1 w-full"
+                    <x-text-input id="first-name" class="block p-4 mt-1 w-full"
                         type="text"
-                        name="name"
-                        value="{{ $user->username }}"
+                        name="first_name"
+                        value="{{ $user->first_name }}"
                         required
-                        autocomplete="name" />
+                        autocomplete="first_name" />
 
-                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                    <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
+                    <x-input-label for="last-name" :value="__('LastName')" />
+
+                    <x-text-input id="last-name" class="block p-4 mt-1 w-full"
+                        type="text"
+                        name="last_name"
+                        value="{{ $user->last_name }}"
+                        required
+                        autocomplete="last_name" />
+
+                    <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                 </div>
 
                 <x-primary-button class="mt-4">

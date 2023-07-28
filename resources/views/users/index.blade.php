@@ -13,9 +13,11 @@
                 </div>
             </div>
             <div class="py-4">
-                <x-primary-button>
-                    {{ __('Create new user') }}
-                </x-primary-button>
+                <a href="{{ route('users.create') }}">
+                    <x-primary-button>
+                        {{ __('Create new user') }}
+                    </x-primary-button>
+                </a>
             </div>
 
             <table class="table">
@@ -24,6 +26,7 @@
                         <th class="text-center" scope="col">ID</th>
                         <th class="text-center" scope="col">{{ __("UserName") }}</th>
                         <th class="text-center" scope="col">{{ __("FullName") }}</th>
+                        <th class="text-center" scope="col">{{ __("Task") }}</th>
                         <th class="text-center" scope="col">{{ __("Action") }}</th>
                     </tr>
                 </thead>
@@ -35,14 +38,38 @@
                             <th class="text-center">{{ $user->username }}</th>
                             <th class="text-center">{{ $user->fullname }}</th>
                             <th class="text-center">
+                                @foreach($user->tasks as $task)
+                                    {{ $task->name }}
+                                @endforeach
+                                <a href="{{ route('users.tasks', ['user' => $user->id]) }}">
+                                    <x-primary-button>
+                                        {{ __("Show user tasks") }}
+                                    </x-primary-button>
+                                </a>
+                            </th>
+                            <th class="text-center">
                                 <a href="{{ route('users.edit', ['user' => $user->id]) }}">
                                     <x-primary-button class="mt-4">
                                         {{ __('Edit') }}
                                     </x-primary-button>
                                 </a>
-                                <x-secondary-button class="mt-4">
-                                    {{ __('Delete') }}
-                                </x-secondary-button>
+
+                                <a href="{{ route('users.show', ['user' => $user->id]) }}">
+                                    <x-primary-button class="mt-4">
+                                        {{ __('View') }}
+                                    </x-primary-button>
+                                </a>
+
+                                <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <x-primary-button type="submit"
+                                        class="mt-4"
+                                        onclick="return confirm('{{ __('Accept delete ?') }}')"
+                                    >
+                                        {{ __('Delete') }}
+                                    </x-primary-button>
+                                </form>
                             </th>
                         </tr>
                     @endforeach
